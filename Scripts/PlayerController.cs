@@ -13,7 +13,8 @@ namespace Assets.Scripts
         Rigidbody2D playerRigidBody;
         Health hp;
         
-        private bool doubleJump = false, collisionCheck = false, disableJump = false;
+        private bool doubleJump = PowerUps.doubleJump, collisionCheck = false, disableJump = false, run = PowerUps.run;
+        AudioSource jumpSound;
         
 
         // Check collision and run actions depending on 
@@ -38,18 +39,28 @@ namespace Assets.Scripts
         void OnCollisionEnter2D(Collision2D collision)
         {
             Debug.Log("Collided");
+            // Death when collided with hazards
             if (collision.gameObject.name == "Hazards")
             {
-                ChangeScene.StringManager ("Level1");
+                ChangeScene.Restart ();
+				Score.score = Score.startScore;
                 hp.UpdateHealth();
-               
-                
             }
-            collisionCheck = true;
+            
+            // Collect points
+			else if (collision.transform.parent.name == "Items") {
+				Score.score += 100;
+				Destroy (collision.gameObject);
+
+			}else {
+				collisionCheck = true;
+			}
         }
 
+        // Constantly running
         void Update()
         {
+            // Check any x-axis movement. If not detected, let player speed slow down.
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -77,29 +88,47 @@ namespace Assets.Scripts
                     }
                 }
             }
+            
+            // Slows the player down by constantly decreasing the current speed.
             else
             {
                 playerSpeed -= playerSpeed / 32;
                 playerRigidBody.velocity = new Vector2(playerSpeed, jumpHeight);
             }
-
+            
+            // The jump script.
             if (Input.GetKeyDown(KeyCode.Space) && (collisionCheck == true || doubleJump == true) && disableJump == false)
             {
                 jumpHeight = 8;
+                jumpSound.Play();
             }
 
-            if (jumpHeight > -8 && collisionCheck == false)
+            // "Gravity" makes the player fall until a collision is detected.
+            if (jumpHeight > -14 && collisionCheck == false)
             {
-                if (jumpHeight > -8)
+                if (jumpHeight > -14)
                 {
                     jumpHeight -= 0.4f;
                 }
 
             }
+			// Prevents autojumping by resetting the jumpheight after space is not pressed anymore.
             else if (collisionCheck == true && !(Input.GetKey(KeyCode.Space)))
             {
                 jumpHeight = 0;
             }
+
+			// Run
+			if (Input.GetKey (KeyCode.LeftShift) && run == true) {
+				maxSpeed = 12;
+			} else {
+				maxSpeed = 7;
+			}
+
+			// Restart level when player falls off map.
+			if (transform.position.y < -6) {
+				ChangeScene.Restart ();
+			}
         }
     }
 }
