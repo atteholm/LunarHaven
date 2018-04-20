@@ -11,6 +11,7 @@ namespace Assets.Scripts
         // Fields
         private float playerSpeed = 0, jumpHeight = 0, maxSpeed = 7;
         Rigidbody2D playerRigidBody;
+        Health hp;
         
         private bool doubleJump = false, collisionCheck = false, disableJump = false;
         
@@ -29,6 +30,7 @@ namespace Assets.Scripts
         void Start()
         {
             playerRigidBody = GetComponent<Rigidbody2D>();
+            hp = GameObject.Find("Player").AddComponent<Health>();
             
           
         }
@@ -39,6 +41,7 @@ namespace Assets.Scripts
             if (collision.gameObject.name == "Hazards")
             {
                 ChangeScene.StringManager ("Level1");
+                hp.UpdateHealth();
                
                 
             }
