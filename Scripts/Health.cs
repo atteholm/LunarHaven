@@ -8,60 +8,50 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    class Health
+    class Health:MonoBehaviour
     {
-        int health = 3;
-        private Text text;
-        //Timer timer = new Timer(3000);
-        public Health()
+        private static int startHealth = 3;
+        private int currentHealth;
+        public Text hptext;
+        
+        
+        void Start()
         {
-
+           
+            hptext = GameObject.Find("Health").GetComponent<Text>();
+            ResetHealth();
+            
         }
         /// <summary>
         /// Updates health
         /// </summary>
         /// <returns></returns>
-        public int UpdateHealth()
+        public void UpdateHealth()
         {
-            health--;
-            return health;
+            if (currentHealth > 0) { 
+                currentHealth = currentHealth - 1;
+                GetHealth();
+            }
         }
-        /// <summary>
-        /// Return Health
-        /// </summary>
-        /// <returns>health</returns>
-        public int GetHealth()
-        {
-            return health;
-
-        }
-        /// <summary>
-        /// Shows health
-        /// </summary>
-        public void ShowHealth()
-        {
-            text.text = "Health: " + health;
-        }
-        /// <summary>
-        /// Resets health
-        /// </summary>
+       
+        
         public void ResetHealth()
         {
-            health = 3;
+            currentHealth = startHealth;
         }
-        void Start()
+        public void GetHealth()
         {
-            text = GameObject.Find("Health").GetComponent<Text>();
+            hptext.text = "Heath: " + currentHealth;
         }
 
 
         void Update()
         {
-            /*text.text = "Health: " + health;
-            if (Input.GetKeyDown(KeyCode.K))
+            hptext.text = "Health: " + currentHealth;
+            if (Input.GetKeyDown(KeyCode.L))
             {
-                health++;
-            }*/
+                ResetHealth();
+            }
         }
     }
 }
