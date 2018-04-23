@@ -13,6 +13,7 @@ namespace Assets.Scripts
         private static int startHealth = 3;
         private int currentHealth;
         public Text hptext;
+        private bool = hasBeenHit = false;
         
         
         void Start()
@@ -28,7 +29,7 @@ namespace Assets.Scripts
         /// <returns></returns>
         public void UpdateHealth()
         {
-            if (currentHealth > 0) { 
+            if (currentHealth > 0 && hasBeenHit == false) { 
                 currentHealth = currentHealth - 1;
                 GetHealth();
             }
@@ -42,6 +43,15 @@ namespace Assets.Scripts
         public void GetHealth()
         {
             hptext.text = "Heath: " + currentHealth;
+        }
+        public void GracePeriod()
+        {
+            hasBeenHit = true;
+            Invoke("NotInvunerable", 3);
+        }
+        private void NotInvunerable()
+        {
+            hasBeenHit = false;
         }
 
 
