@@ -6,6 +6,7 @@ public class GoldPileScript : MonoBehaviour {
 
 	public GameObject goldPile;
 	float x = Mathf.PI / 100;
+
 	// Use this for initialization
 	void Start () {
 		

@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// Player controller.
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +23,6 @@ namespace Assets.Scripts
 
         // Check collision and run actions depending on 
        
-
         void OnCollisionExit2D(Collision2D collision)
         {
             Debug.Log("Collision exit");
@@ -32,7 +35,7 @@ namespace Assets.Scripts
         {
             playerRigidBody = GetComponent<Rigidbody2D>();
             hp = GameObject.Find("Player").AddComponent<Health>();
-            
+			jumpSound = GameObject.Find ("JumpSound").GetComponent<AudioSource> ();
           
         }
 
@@ -42,13 +45,16 @@ namespace Assets.Scripts
             // Death when collided with hazards
             if (collision.gameObject.name == "Hazards")
             {
-                ChangeScene.Restart ();
-				Score.score = Score.startScore;
                 hp.UpdateHealth();
+				collisionCheck = true;
             }
             
-            // Collect points
+            // Collect points and items
 			else if (collision.transform.parent.name == "Items") {
+				if (collision.transform.name == "FuelCan") {
+					ChangeScene.StringManager ("HubMap");
+				}
+
 				Score.score += 100;
 				Destroy (collision.gameObject);
 
@@ -101,7 +107,9 @@ namespace Assets.Scripts
             {
                 jumpHeight = 8;
                 jumpSound.Play();
+
             }
+				
 
             // "Gravity" makes the player fall until a collision is detected.
             if (jumpHeight > -14 && collisionCheck == false)
@@ -123,6 +131,20 @@ namespace Assets.Scripts
 				maxSpeed = 12;
 			} else {
 				maxSpeed = 7;
+			}
+
+			// Manual restart
+			if (Input.GetKeyDown (KeyCode.R)){
+				ChangeScene.Restart ();
+			}
+
+			// Cheats
+			if (Input.GetKey (KeyCode.Tab) && Input.GetKey (KeyCode.P))
+			{
+				Debug.Log ("Cheats activated! and bonushealt = " + PowerUps.bonusHealth);
+				PowerUps.ActivatePowerUp ("run");
+				PowerUps.ActivatePowerUp ("doubleJump");
+				PowerUps.ActivatePowerUp ("bonusHealth");
 			}
 
 			// Restart level when player falls off map.

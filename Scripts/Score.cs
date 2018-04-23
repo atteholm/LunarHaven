@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 	
 	private static Text points;
-	public static int score = 0, startScore = 0;
+	public static int score = 0, startScore = 0, fuelCans = 0;
+
 
 	public static void GetPoints (){
 		score++;
 		points.text = "Score: " + score;
 	}
 
-	// public static void 
 	// Use this for initialization
 	void Start () {
 		points = GameObject.Find ("Score").GetComponent<Text> ();
@@ -23,7 +23,7 @@ public class Score : MonoBehaviour {
 	void Update () {
 		points.text = "Score: " + score;
 		if (Input.GetKeyDown (KeyCode.I)) {
-			score++;
+			score += 1000;
 		}
 	}
 }
