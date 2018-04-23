@@ -10,10 +10,9 @@ namespace Assets.Scripts
 {
     class Health:MonoBehaviour
     {
-        private static int startHealth = 3;
         private int currentHealth;
         public Text hptext;
-        private bool = hasBeenHit = false;
+        private bool hasBeenHit = false;
         
         
         void Start()
@@ -29,6 +28,10 @@ namespace Assets.Scripts
         /// <returns></returns>
         public void UpdateHealth()
         {
+			if (currentHealth == 1) {
+				currentHealth--;
+				ChangeScene.Restart ();
+			}
             if (currentHealth > 0 && hasBeenHit == false) { 
                 currentHealth = currentHealth - 1;
                 GetHealth();
@@ -38,7 +41,7 @@ namespace Assets.Scripts
         
         public void ResetHealth()
         {
-            currentHealth = startHealth;
+			currentHealth = 3 + PowerUps.bonusHealth;
         }
         public void GetHealth()
         {
