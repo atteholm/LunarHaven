@@ -13,7 +13,7 @@ namespace Assets.Scripts
         
         private int currentHealth;
         public Text hptext;
-        private bool = hasBeenHit = false;
+        private bool hasBeenHit = false;
         
         
         void Start()
@@ -43,10 +43,12 @@ namespace Assets.Scripts
         {
             currentHealth = 3 + PowerUps.bonusHealth;
         }
+        //Prints health on text
         public void GetHealth()
         {
             hptext.text = "Heath: " + currentHealth;
         }
+        //Stops player from taking dmg too quickly
         public void GracePeriod()
         {
             hasBeenHit = true;
@@ -60,6 +62,7 @@ namespace Assets.Scripts
 
         void Update()
         {
+            //Cheats for debugging; resets health
             hptext.text = "Health: " + currentHealth;
             if (Input.GetKeyDown(KeyCode.L))
             {
