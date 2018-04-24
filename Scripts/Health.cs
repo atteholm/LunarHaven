@@ -35,6 +35,7 @@ namespace Assets.Scripts
             else if (currentHealth > 0 && hasBeenHit == false) { 
                 currentHealth = currentHealth - 1;
                 GetHealth();
+                GracePeriod();
             }
         }
        
