@@ -48,6 +48,7 @@ public class HubMenuController : MonoBehaviour {
 	public static void BuyJump(){
 		if (PowerUps.doubleJump == false && Score.score >= 1200) {
 			PowerUps.doubleJump = true;
+			Score.score -= 1200;
 			outputText.text = "You can now double jump!";
 		} else if (PowerUps.doubleJump == true) {
 			outputText.text = "You already own that power up.";
@@ -60,6 +61,7 @@ public class HubMenuController : MonoBehaviour {
 	public static void BuyRun(){
 		if (PowerUps.run == false && Score.score >= 1000) {
 			PowerUps.run = true;
+			Score.score -= 1000;
 			outputText.text = "You can now run! Hold shift while playing to go faster.";
 		} else if (PowerUps.run == true) {
 			outputText.text = "You already own that power up.";
