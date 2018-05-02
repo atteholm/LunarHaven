@@ -1,36 +1,35 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// Power ups.
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUps : MonoBehaviour {
+public class PowerUps : MonoBehaviour
+{
 
+	public static int bonusHealth = 0, doubleJump = 0, run = 0, healthPrice = 500 * (bonusHealth + 1), jumpPrice = 1000 * (doubleJump + 1), runPrice = 1000 * (run + 1);
 
-
-	public static bool run = false, doubleJump = false;
-	public static int bonusHealth = 0;
-
-	public static void ActivatePowerUp(string name)
+	// Used from the hub menu to give the player a power up of their choice.
+	public static void ActivatePowerUp (string name)
 	{
-		switch (name)
-		{
+		switch (name) {
 		case "run":
-			run = true;
+			run++;
 			break;
 		case "doubleJump":
-			doubleJump = true;
+			doubleJump++;
 			break;
 		case "bonusHealth":
 			bonusHealth++;
 			break;
 		}
 	}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public static void UpdatePrices()
+	{
+		healthPrice = 500 * (bonusHealth + 1);
+		jumpPrice = 1000 * (doubleJump + 1);
+		runPrice = 1000 * (run + 1);
 	}
 }

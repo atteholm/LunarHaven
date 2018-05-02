@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowPlayer : MonoBehaviour {
+public class FollowPlayer : MonoBehaviour
+{
 	
 	public GameObject player;
 
-	void Update () {
+	void Update ()
+	{
 		
-		// Try catch prevents hundreds of error messages
+		// Try catch prevents console flood
 		try {
 			// Copies the player position to the camera position
 			transform.position = player.transform.position;
-		}
-		catch (UnassignedReferenceException) {
+		} catch (UnassignedReferenceException) {
 
 		}
 	}
